@@ -1,0 +1,1 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([[42],{424:function(e,n,t){"use strict";t.r(n);var c={props:["view","icon1","icon2"]},l=t(2),component=Object(l.a)(c,(function(){var e=this,n=e.$createElement,t=e._self._c||n;return t("div",[e.view?t("Pencil"):t("Send",{attrs:{title:"Submit Change"}})],1)}),[],!1,null,null,null);n.default=component.exports}}]);

@@ -1,0 +1,1 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([[13],{340:function(t,e,n){"use strict";n.r(e);var l={},o=n(2),component=Object(o.a)(l,(function(){var t=this.$createElement,e=this._self._c||t;return e("v-app",[e("h1",[this._v("welcome to Vuetify")]),this._v(" "),e("v-row")],1)}),[],!1,null,null,null);e.default=component.exports}}]);

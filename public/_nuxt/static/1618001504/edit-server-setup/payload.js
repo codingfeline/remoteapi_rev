@@ -1,0 +1,1 @@
+__NUXT_JSONP__("/edit-server-setup", {data:[{}],fetch:{},mutations:[]});
