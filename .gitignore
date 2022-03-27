@@ -41,6 +41,7 @@ build/Release
 node_modules/
 jspm_packages/
 public/
+dev_notes.txt
 
 # Snowpack dependency directory (https://snowpack.dev/)
 web_modules/
