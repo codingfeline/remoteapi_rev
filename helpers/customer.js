@@ -123,7 +123,7 @@ exports.updateOneServerSetup = async (req, res) => {
   let path = 'public/screenshots/'
 
   // if new image is submitted, create it and delete the old one
-  if (base64Str != '') {
+  if (base64Str != '<br>') {
     fs.writeFile(path + imageName, base64Img, { encoding: 'base64' }, function (err) {
       if (err) console.log(err)
       console.log(`file ${imageName}, path ${path} created`)
@@ -131,7 +131,7 @@ exports.updateOneServerSetup = async (req, res) => {
     })
   }
   //if no new image is submitted, just update the comment
-  if (base64Str == '') {
+  if (base64Str === '<br>') {
     await Customer.findOneAndUpdate(
       { _id: custId, 'serverSetup._id': req.body.serverSetup.id },
       {
@@ -203,6 +203,7 @@ exports.insertOneContact = async (req, res) => {
 }
 
 exports.updateOneContact = async (req, res) => {
+  console.log(req.body)
   await Customer.findOneAndUpdate(
     { _id: req.params.itemId, 'contact._id': req.body.contact[0]._id },
     {
