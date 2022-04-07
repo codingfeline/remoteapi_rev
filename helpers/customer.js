@@ -122,8 +122,12 @@ exports.updateOneServerSetup = async (req, res) => {
   let imageName = `${uniq}__screenshot.png`
   let path = 'public/screenshots/'
 
+  // if (base64Str.indexOf('data') === -1) console.log('no new image')
+  // if (base64Str.indexOf('data') !== -1) console.log('new image')
+  // return
+
   // if new image is submitted, create it and delete the old one
-  if (base64Str != '<br>') {
+  if (base64Str.includes('data')) {
     fs.writeFile(path + imageName, base64Img, { encoding: 'base64' }, function (err) {
       if (err) console.log(err)
       console.log(`file ${imageName}, path ${path} created`)
@@ -131,7 +135,7 @@ exports.updateOneServerSetup = async (req, res) => {
     })
   }
   //if no new image is submitted, just update the comment
-  if (base64Str === '<br>') {
+  if (!base64Str.includes('data')) {
     await Customer.findOneAndUpdate(
       { _id: custId, 'serverSetup._id': req.body.serverSetup.id },
       {
