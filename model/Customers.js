@@ -10,6 +10,21 @@ const contactSchema = mongoose.Schema({
   name: reqString,
   tel: optionalString,
   email: optionalString,
+  title: optionalString,
+})
+
+const scanEmailSchema = mongoose.Schema({
+  hostname: reqString,
+  username: optionalString,
+  password: optionalString,
+  port: reqString,
+})
+
+const scanFolderSchema = mongoose.Schema({
+  hostname: reqString,
+  folder: optionalString,
+  username: reqString,
+  password: reqString,
 })
 
 const methodInfoSchema = mongoose.Schema({
@@ -27,12 +42,12 @@ const devServSchema = mongoose.Schema({
   fileName: optionalString,
 })
 
-const serverList = mongoose.Schema({
+const serverSchema = mongoose.Schema({
   name: optionalString,
   ip: optionalString,
   username: optionalString,
   password: optionalString,
-  domain: reqString,
+  internet: { type: Boolean, default: false },
 })
 
 const devListSchema = mongoose.Schema({
@@ -47,6 +62,12 @@ const devPasswordSchema = mongoose.Schema({
   password: optionalString,
 })
 
+const networkSchema = mongoose.Schema({
+  name: optionalString,
+  domain: reqString,
+  dns: [optionalString],
+})
+
 const customerSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -56,12 +77,15 @@ const customerSchema = new mongoose.Schema({
   solution: reqString,
   contact: [contactSchema],
   methodInfo: [methodInfoSchema],
-  server: [serverList],
+  server: [serverSchema],
   serverSetup: [devServSchema],
   deviceSetup: [devServSchema],
   deviceList: [devListSchema],
   devicePassword: [devPasswordSchema],
-  otherNotes: optionalString,
+  network: [networkSchema],
+  scanEmail: [scanEmailSchema],
+  scanFolder: [scanFolderSchema],
+  otherNotes: [reqString],
   date: {
     type: Date,
     default: Date.now,
