@@ -1,6 +1,8 @@
 const router = require('express').Router()
 const verify = require('./verifyToken')
 const helpers = require('../helpers/customer')
+const inserts = require('../helpers/inserts')
+const findOnes = require('../helpers/findOne')
 const multer = require('multer')
 const uuid = require('uuid').v4
 
@@ -26,7 +28,14 @@ const fileFilter = (req, file, cb) => {
   }
 }
 
-router.route('/').get(helpers.getAllItems).post(helpers.createItem)
+router.route('/').get(helpers.getAllItems).post(helpers.create)
+router.route('/nameId').get(helpers.getNameId)
+
+// FIND ONES
+router.route('/:itemId/:methodId/findMethod').get(findOnes.findMethod)
+router.route('/:itemId/:contactId/findContact').get(findOnes.findContact)
+router.route('/:itemId/:serverId/findServer').get(findOnes.findServer)
+router.route('/:itemId/:deviceId/findDevice').get(findOnes.findDevice)
 
 router
   .route('/:itemId')
@@ -34,23 +43,29 @@ router
   .put(helpers.updateItem)
   .delete(verify, helpers.deleteItem)
 
-router.route('/:itemId/insertOneMethod').put(helpers.insertOneMethod)
-router.route('/:itemId/updateMethodInfo').put(helpers.updateMethodInfo)
-router.route('/:itemId/insertOneDevicePassword').put(helpers.insertOneDevicePassword)
-router.route('/:itemId/updateOneDevicePassword').put(helpers.updateOneDevicePassword)
-router.route('/:itemId/insertOneServer').put(helpers.insertOneServer)
-router.route('/:itemId/updateOneServer').put(helpers.updateOneServer)
-router.route('/:itemId/insertOneServerSetup').put(helpers.insertOneServerSetup)
-router.route('/:itemId/updateOneServerSetup').put(helpers.updateOneServerSetup)
-router.route('/:itemId/insertOneContact').put(helpers.insertOneContact)
-router.route('/:itemId/updateOneContact').put(helpers.updateOneContact)
+// INSERTS
+router.route('/:itemId/insertMethod').put(inserts.insertMethod)
+router.route('/:itemId/insertContact').put(inserts.insertContact)
+router.route('/:itemId/insertDevice').put(inserts.insertDevice)
+router.route('/:itemId/insertServer').put(inserts.insertServer)
+router.route('/:itemId/insertScanFolder').put(inserts.insertScanFolder)
+router.route('/:itemId/insertScanEmail').put(inserts.insertScanEmail)
+router.route('/:itemId/insertNetwork').put(inserts.insertNetwork)
 
+router.route('/:itemId/insertOneServerSetup').put(inserts.insertOneServerSetup)
 router
   .route('/:itemId/insertOneServerSetup2')
   .put(
     multer({ storage: fileStorage, fileFilter }).single('image'),
-    helpers.insertOneServerSetup2
+    inserts.insertOneServerSetup2
   )
+
+// UPDATES
+router.route('/:itemId/updateMethodInfo').put(helpers.updateMethodInfo)
+router.route('/:itemId/updateDevice').put(helpers.updateDevice)
+router.route('/:itemId/updateServer').put(helpers.updateServer)
+router.route('/:itemId/updateServerSetup').put(helpers.updateServerSetup)
+router.route('/:itemId/updateContact').put(helpers.updateContact)
 
 // router
 //   .route('/:itemId/insertOneServerSetup')
