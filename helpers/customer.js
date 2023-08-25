@@ -4,9 +4,22 @@ exports.getAllItems = async (req, res) => {
   await Customer.find()
     .then(menu => {
       res.json(menu)
-      // console.log('ok')
     })
-    // .then(menu => res.json(menu))
+    .catch(err => res.send(err))
+}
+
+exports.getNameId = async (req, res) => {
+  await Customer.find()
+    .then(menu => {
+      res.json(
+        menu.map(c => {
+          return {
+            _id: c._id,
+            name: c.name,
+          }
+        })
+      )
+    })
     .catch(err => res.send(err))
 }
 
@@ -16,7 +29,7 @@ exports.getOneItem = (req, res) => {
     .catch(err => res.send(err))
 }
 
-exports.createItem = async (req, res) => {
+exports.create = async (req, res) => {
   const fs = require('fs')
   return await Customer.create(req.body)
     .then(newItem => {
@@ -43,70 +56,7 @@ exports.updateItem = async (req, res) => {
     .catch(err => res.send(err))
 }
 
-exports.insertOneServerSetup2 = async (req, res) => {
-  const img = req.file
-  console.log('file', img)
-  console.log(req.body)
-  if (!img) {
-    res.send('not supported')
-  } else {
-    await Customer.findOneAndUpdate(
-      { _id: req.params.itemId },
-      {
-        $push: {
-          serverSetup: {
-            ...img,
-            screenshot: img.filename,
-            path: img.path,
-            comment: req.body.comment,
-          },
-        },
-        // comment: req.body.serverSetup.comment,
-      },
-      { new: true }
-    )
-      .then(newItem => res.status(201).json(newItem))
-      .catch(err => res.send(err))
-  }
-}
-exports.insertOneServerSetup = (req, res) => {
-  const fs = require('fs')
-  const uuid = require('uuid').v4
-
-  let base64Str = req.body.screenshot
-  let base64Img = base64Str.split(';base64,').pop()
-  // let uniq = new Date().toISOString()
-  let uniq = uuid()
-  let imageName = `${uniq}__screenshot.png`
-  let path = 'public/screenshots/'
-  // if (!fs.existsSync(path)) fs.mkdirSync(path)
-  fs.writeFile(path + imageName, base64Img, { encoding: 'base64' }, function (err) {
-    if (err) console.log(err)
-    console.log(`file ${imageName} created`)
-  })
-  console.log(imageName)
-  console.log(req.body.comment)
-  return Customer.findOneAndUpdate(
-    { _id: req.params.itemId },
-    {
-      $push: {
-        serverSetup: {
-          comment: req.body.comment,
-          screenshot: imageName,
-          path,
-        },
-      },
-    },
-    { new: true }
-  )
-    .then(menu => {
-      res.json(menu)
-      // console.log(req.body)
-    })
-    .catch(err => res.send(err))
-}
-
-exports.updateOneServerSetup = async (req, res) => {
+exports.updateServerSetup = async (req, res) => {
   // console.log(req.body.serverSetup)
   // return false
   let oldScreenshot = req.body.serverSetup.old
@@ -169,86 +119,32 @@ exports.updateOneServerSetup = async (req, res) => {
   }
 }
 
-exports.insertOneServerSetup1 = async (req, res) => {
+exports.updateContact = async (req, res) => {
   await Customer.findOneAndUpdate(
-    { _id: req.params.itemId },
-    {
-      $push: {
-        serverSetup: {
-          comment: req.body.serverSetup.comment,
-          screenshot: req.body.serverSetup.screenshot,
-          path: '',
-        },
-      },
-      // $push: { serverSetup: req.body.serverSetup },
-    },
-    { new: true }
-  )
-    .then(menu => {
-      res.json(menu)
-      // console.log(req.body)
-    })
-    .catch(err => res.send(err))
-}
-
-exports.insertOneContact = async (req, res) => {
-  await Customer.findOneAndUpdate(
-    { _id: req.params.itemId },
-    {
-      $push: { contact: req.body.contact },
-    },
-    { new: true }
-  )
-    .then(menu => {
-      res.json(menu)
-      console.log(req.body, menu)
-    })
-    .catch(err => res.send(err))
-}
-
-exports.updateOneContact = async (req, res) => {
-  console.log(req.body)
-  await Customer.findOneAndUpdate(
-    { _id: req.params.itemId, 'contact._id': req.body.contact[0]._id },
+    { _id: req.params.itemId, 'contact._id': req.body._id },
     {
       $set: {
-        'contact.$.name': req.body.contact[0].name,
-        'contact.$.tel': req.body.contact[0].tel,
-        'contact.$.email': req.body.contact[0].email,
+        'contact.$.name': req.body.name,
+        'contact.$.tel': req.body.tel,
+        'contact.$.email': req.body.email,
       },
     },
     { new: true }
   )
     .then(menu => {
       res.json(menu)
-      console.log(req.body)
     })
     .catch(err => res.send(err))
 }
 
-exports.insertOneDevicePassword = async (req, res) => {
+exports.updateDevice = async (req, res) => {
   await Customer.findOneAndUpdate(
-    { _id: req.params.itemId },
-    {
-      $push: { devicePassword: req.body.devicePassword },
-    },
-    { new: true }
-  )
-    .then(menu => {
-      res.json(menu)
-      console.log(req.body, menu)
-    })
-    .catch(err => res.send(err))
-}
-
-exports.updateOneDevicePassword = async (req, res) => {
-  await Customer.findOneAndUpdate(
-    { _id: req.params.itemId, 'devicePassword._id': req.body.devicePassword[0]._id },
+    { _id: req.params.itemId, 'devicePassword._id': req.body._id },
     {
       $set: {
-        'devicePassword.$.make': req.body.devicePassword[0].make,
-        'devicePassword.$.username': req.body.devicePassword[0].username,
-        'devicePassword.$.password': req.body.devicePassword[0].password,
+        'devicePassword.$.make': req.body.make,
+        'devicePassword.$.username': req.body.username,
+        'devicePassword.$.password': req.body.password,
       },
     },
     { new: true }
@@ -260,78 +156,41 @@ exports.updateOneDevicePassword = async (req, res) => {
     .catch(err => res.send(err))
 }
 
-exports.insertOneServer = async (req, res) => {
-  console.log(req.body, req.params.itemId)
+exports.updateServer = async (req, res) => {
   await Customer.findOneAndUpdate(
-    { _id: req.params.itemId },
-    {
-      $push: { server: req.body.server },
-    },
-    { new: true }
-  )
-    .then(menu => {
-      res.json(menu)
-      console.log(req.body)
-    })
-    .catch(err => res.send(err))
-}
-exports.updateOneServer = async (req, res) => {
-  await Customer.findOneAndUpdate(
-    { _id: req.params.itemId, 'server._id': req.body.server[0]._id },
+    { _id: req.params.itemId, 'server._id': req.body._id },
     {
       $set: {
-        'server.$.name': req.body.server[0].name,
-        'server.$.username': req.body.server[0].username,
-        'server.$.password': req.body.server[0].password,
-        'server.$.ip': req.body.server[0].ip,
+        'server.$.name': req.body.name,
+        'server.$.username': req.body.username,
+        'server.$.password': req.body.password,
+        'server.$.ip': req.body.ip,
       },
     },
     { new: true }
   )
     .then(menu => {
       res.json(menu)
-      console.log(req.body)
     })
     .catch(err => res.send(err))
 }
 
-exports.insertOneMethod = async (req, res) => {
-  await Customer.findOneAndUpdate(
-    { _id: req.params.itemId },
-    {
-      $push: { methodInfo: req.body.methodInfo },
-    },
-    { new: true }
-  )
-    .then(menu => {
-      res.json(menu)
-      console.log(req.body)
-    })
-    .catch(err => res.send(err))
-}
 exports.updateMethodInfo = async (req, res) => {
-  // let set = {}
-  // for (let field in req.body) {
-  //   set['methodInfo.$.' + field] = req.body[field]
-  // }
   await Customer.findOneAndUpdate(
-    { _id: req.params.itemId, 'methodInfo._id': req.body.methodInfo[0]._id },
-    // { $set: { methodInfo$: req.body.methodInfo } },
-    // { $set: set },
+    { _id: req.params.itemId, 'methodInfo._id': req.body._id },
     {
       $set: {
-        'methodInfo.$.methodName': req.body.methodInfo[0].methodName,
-        'methodInfo.$.username': req.body.methodInfo[0].username,
-        'methodInfo.$.password': req.body.methodInfo[0].password,
-        'methodInfo.$.url': req.body.methodInfo[0].url,
-        'methodInfo.$.notes': req.body.methodInfo[0].notes,
+        'methodInfo.$.methodName': req.body.methodName,
+        'methodInfo.$.username': req.body.username,
+        'methodInfo.$.password': req.body.password,
+        'methodInfo.$.url': req.body.url,
+        'methodInfo.$.notes': req.body.notes,
       },
     },
     { new: true }
   )
     .then(menu => {
       res.json(menu)
-      console.log(req.body.methodInfo)
     })
     .catch(err => res.send(err))
 }
