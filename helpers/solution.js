@@ -1,6 +1,6 @@
 const Solution = require('../model/Solutions')
 
-exports.getAllItems = (req, res) => {
+exports.getAll = (req, res) => {
   Solution.find()
     .then(menu => res.json(menu))
     .catch(err => res.send(err))
@@ -12,8 +12,11 @@ exports.getOneItem = (req, res) => {
     .catch(err => res.send(err))
 }
 
-exports.createMenu = async (req, res) => {
+exports.create = async (req, res) => {
   await Solution.create(req.body)
+    .then(newItem => {
+      console.log(newItem)
+    })
     .then(newItem => res.status(201).json(newItem))
     .catch(err => res.send(err))
 }
