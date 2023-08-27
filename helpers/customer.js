@@ -156,6 +156,68 @@ exports.updateDevice = async (req, res) => {
     .catch(err => res.send(err))
 }
 
+exports.updateScanEmail = async (req, res) => {
+  await Customer.findOneAndUpdate(
+    { _id: req.params.itemId, 'scanEmail._id': req.body._id },
+    {
+      $set: {
+        'scanEmail.$.make': req.body.hostname,
+        'scanEmail.$.username': req.body.username,
+        'scanEmail.$.password': req.body.password,
+        'scanEmail.$.port': req.body.port,
+      },
+    },
+    { new: true }
+  )
+    .then(menu => {
+      res.json(menu)
+      console.log(req.body)
+    })
+    .catch(err => res.send(err))
+}
+
+exports.updateScanFolder = async (req, res) => {
+  await Customer.findOneAndUpdate(
+    { _id: req.params.itemId, 'scanFolder._id': req.body._id },
+    {
+      $set: {
+        'scanFolder.$.make': req.body.hostname,
+        'scanFolder.$.username': req.body.username,
+        'scanFolder.$.password': req.body.password,
+        'scanFolder.$.folder': req.body.folder,
+      },
+    },
+    { new: true }
+  )
+    .then(menu => {
+      res.json(menu)
+      console.log(req.body)
+    })
+    .catch(err => res.send(err))
+}
+
+exports.updateNetwork = async (req, res) => {
+  let dns = req.body.dns1
+  if (req.body.dns2) dns = dns + ',' + req.body.dns2
+  if (req.body.dns3) dns = dns + ',' + req.body.dns3
+  await Customer.findOneAndUpdate(
+    { _id: req.params.itemId, 'network._id': req.body._id },
+    {
+      $set: {
+        'network.$.name': req.body.name,
+        'network.$.domain': req.body.domain,
+        'network.$.dns': dns,
+      },
+    },
+    { new: true }
+  )
+    .then(menu => {
+      res.json(menu)
+      console.log(req.body)
+    })
+    .catch(err => res.send(err))
+}
+
 exports.updateServer = async (req, res) => {
   await Customer.findOneAndUpdate(
     { _id: req.params.itemId, 'server._id': req.body._id },
