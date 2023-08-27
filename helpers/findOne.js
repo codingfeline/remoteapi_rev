@@ -102,4 +102,76 @@ exports.findDevice = async (req, res) => {
   )
 }
 
+exports.findScanEmail = async (req, res) => {
+  Customer.findOne(
+    {
+      _id: req.params.itemId,
+      'scanEmail._id': req.params.scanEmailId,
+    },
+    { 'scanEmail.$': 1, _id: 0 },
+    (err, customer) => {
+      if (err) {
+        console.error('Error retrieving data:', err)
+      } else {
+        if (customer && customer.scanEmail && customer.scanEmail.length > 0) {
+          console.log('Retrieved device:', customer.scanEmail[0])
+          res.send(customer.scanEmail[0])
+        } else {
+          console.log('Device not found.')
+          res.send('Device not found.')
+        }
+      }
+      // Close the Mongoose connection
+    }
+  )
+}
+
+exports.findScanFolder = async (req, res) => {
+  Customer.findOne(
+    {
+      _id: req.params.itemId,
+      'scanFolder._id': req.params.scanFolder,
+    },
+    { 'scanFolder.$': 1, _id: 0 },
+    (err, customer) => {
+      if (err) {
+        console.error('Error retrieving data:', err)
+      } else {
+        if (customer && customer.scanFolder && customer.scanFolder.length > 0) {
+          console.log('Retrieved scanFolder:', customer.scanFolder[0])
+          res.send(customer.scanFolder[0])
+        } else {
+          console.log('ScanFolder not found.')
+          res.send('ScanFolder not found.')
+        }
+      }
+      // Close the Mongoose connection
+    }
+  )
+}
+
+exports.findNetwork = async (req, res) => {
+  Customer.findOne(
+    {
+      _id: req.params.itemId,
+      'network._id': req.params.network,
+    },
+    { 'network.$': 1, _id: 0 },
+    (err, customer) => {
+      if (err) {
+        console.error('Error retrieving data:', err)
+      } else {
+        if (customer && customer.network && customer.network.length > 0) {
+          console.log('Retrieved network:', customer.network[0])
+          res.send(customer.network[0])
+        } else {
+          console.log('Network not found.')
+          res.send('Network not found.')
+        }
+      }
+      // Close the Mongoose connection
+    }
+  )
+}
+
 module.exports = exports
