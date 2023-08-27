@@ -65,7 +65,7 @@ const devPasswordSchema = mongoose.Schema({
 const networkSchema = mongoose.Schema({
   name: optionalString,
   domain: reqString,
-  dns: [optionalString],
+  dns: optionalString,
 })
 
 const customerSchema = new mongoose.Schema({
