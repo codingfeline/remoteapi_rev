@@ -54,6 +54,7 @@ router.route('/:itemId/insertServer').put(inserts.insertServer)
 router.route('/:itemId/insertScanFolder').put(inserts.insertScanFolder)
 router.route('/:itemId/insertScanEmail').put(inserts.insertScanEmail)
 router.route('/:itemId/insertNetwork').put(inserts.insertNetwork)
+router.route('/:itemId/insertSolutionInfo').put(inserts.insertSolutionInfo)
 
 router.route('/:itemId/insertOneServerSetup').put(inserts.insertOneServerSetup)
 router
