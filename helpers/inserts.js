@@ -204,4 +204,19 @@ exports.insertMethod = async (req, res) => {
     .catch(err => res.send(err))
 }
 
+exports.insertSolutionInfo = async (req, res) => {
+  await Customer.findOneAndUpdate(
+    { _id: req.params.itemId },
+    {
+      $push: { solutionInfo: req.body },
+    },
+    { new: true }
+  )
+    .then(menu => {
+      res.json(menu)
+      console.log(req.body)
+    })
+    .catch(err => res.send(err))
+}
+
 module.exports = exports
