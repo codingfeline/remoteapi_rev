@@ -68,13 +68,21 @@ const networkSchema = mongoose.Schema({
   dns: optionalString,
 })
 
+const solutionSchema = mongoose.Schema({
+  name: optionalString,
+  portal: optionalString,
+  username: optionalString,
+  password: optionalString,
+})
+
 const customerSchema = new mongoose.Schema({
   name: {
     type: String,
     required: [true, 'you need to say something'],
     minlength: [4, 'you can do more than that'],
   },
-  solution: reqString,
+  solution: optionalString,
+  solutionInfo: [solutionSchema],
   contact: [contactSchema],
   methodInfo: [methodInfoSchema],
   server: [serverSchema],
