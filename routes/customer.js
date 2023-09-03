@@ -39,6 +39,7 @@ router.route('/:itemId/:deviceId/findDevice').get(findOnes.findDevice)
 router.route('/:itemId/:scanEmailId/findScanEmail').get(findOnes.findScanEmail)
 router.route('/:itemId/:scanFolder/findScanFolder').get(findOnes.findScanFolder)
 router.route('/:itemId/:network/findNetwork').get(findOnes.findNetwork)
+router.route('/:itemId/:solutionInfo/findSolution').get(findOnes.findSolution)
 
 router
   .route('/:itemId')
@@ -54,7 +55,7 @@ router.route('/:itemId/insertServer').put(inserts.insertServer)
 router.route('/:itemId/insertScanFolder').put(inserts.insertScanFolder)
 router.route('/:itemId/insertScanEmail').put(inserts.insertScanEmail)
 router.route('/:itemId/insertNetwork').put(inserts.insertNetwork)
-router.route('/:itemId/insertSolutionInfo').put(inserts.insertSolutionInfo)
+router.route('/:itemId/insertSolution').put(inserts.insertSolution)
 
 router.route('/:itemId/insertOneServerSetup').put(inserts.insertOneServerSetup)
 router
@@ -73,6 +74,7 @@ router.route('/:itemId/updateContact').put(helpers.updateContact)
 router.route('/:itemId/updateScanEmail').put(helpers.updateScanEmail)
 router.route('/:itemId/updateScanFolder').put(helpers.updateScanFolder)
 router.route('/:itemId/updateNetwork').put(helpers.updateNetwork)
+router.route('/:itemId/updateSolution').put(helpers.updateSolution)
 
 // router
 //   .route('/:itemId/insertOneServerSetup')
