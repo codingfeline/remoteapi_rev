@@ -174,4 +174,28 @@ exports.findNetwork = async (req, res) => {
   )
 }
 
+exports.findSolution = async (req, res) => {
+  Customer.findOne(
+    {
+      _id: req.params.itemId,
+      'solutionInfo._id': req.params.solutionInfo,
+    },
+    { 'solutionInfo.$': 1, _id: 0 },
+    (err, customer) => {
+      if (err) {
+        console.error('Error retrieving data:', err)
+      } else {
+        if (customer && customer.solutionInfo && customer.solutionInfo.length > 0) {
+          console.log('Retrieved solutionInfo:', customer.solutionInfo[0])
+          res.send(customer.solutionInfo[0])
+        } else {
+          console.log('SolutionInfo not found.')
+          res.send('SolutionInfo not found.')
+        }
+      }
+      // Close the Mongoose connection
+    }
+  )
+}
+
 module.exports = exports
