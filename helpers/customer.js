@@ -35,7 +35,7 @@ exports.create = async (req, res) => {
     .then(newItem => {
       res.status(201).json(newItem)
       // console.log(req.body)
-      console.log(newItem._id)
+      console.log('created', newItem._id)
       let path = './public/screenshots/' + newItem._id + '/'
       fs.mkdirSync(path)
     })
@@ -247,6 +247,25 @@ exports.updateMethodInfo = async (req, res) => {
         'methodInfo.$.password': req.body.password,
         'methodInfo.$.url': req.body.url,
         'methodInfo.$.notes': req.body.notes,
+      },
+    },
+    { new: true }
+  )
+    .then(menu => {
+      res.json(menu)
+    })
+    .catch(err => res.send(err))
+}
+
+exports.updateSolution = async (req, res) => {
+  await Customer.findOneAndUpdate(
+    { _id: req.params.itemId, 'solutionInfo._id': req.body._id },
+    {
+      $set: {
+        'solutionInfo.$.methodName': req.body.name,
+        'solutionInfo.$.username': req.body.username,
+        'solutionInfo.$.password': req.body.password,
+        'solutionInfo.$.portal': req.body.portal,
       },
     },
     { new: true }
