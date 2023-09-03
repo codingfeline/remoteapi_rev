@@ -204,7 +204,7 @@ exports.insertMethod = async (req, res) => {
     .catch(err => res.send(err))
 }
 
-exports.insertSolutionInfo = async (req, res) => {
+exports.insertSolution = async (req, res) => {
   await Customer.findOneAndUpdate(
     { _id: req.params.itemId },
     {
