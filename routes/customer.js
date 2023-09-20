@@ -45,7 +45,7 @@ router
   .route('/:itemId')
   .get(helpers.getOneItem)
   .put(helpers.updateItem)
-  .delete(verify, helpers.deleteItem)
+  .delete(helpers.deleteItem)
 
 // INSERTS
 router.route('/:itemId/insertMethod').put(inserts.insertMethod)
