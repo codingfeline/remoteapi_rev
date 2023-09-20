@@ -258,11 +258,13 @@ exports.updateMethodInfo = async (req, res) => {
 }
 
 exports.updateSolution = async (req, res) => {
+  // console.log(req.params)
+  // return
   await Customer.findOneAndUpdate(
     { _id: req.params.itemId, 'solutionInfo._id': req.body._id },
     {
       $set: {
-        'solutionInfo.$.methodName': req.body.name,
+        'solutionInfo.$.name': req.body.name,
         'solutionInfo.$.username': req.body.username,
         'solutionInfo.$.password': req.body.password,
         'solutionInfo.$.portal': req.body.portal,
